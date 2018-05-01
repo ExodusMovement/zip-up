@@ -1,0 +1,37 @@
+{
+  "name": "zip-up",
+  "version": "1.0.0",
+  "description": "Create .zip files from directories or files",
+  "homepage": "https://github.com/ExodusMovement/zip-up#readme",
+  "bugs": {
+    "url": "https://github.com/ExodusMovement/zip-up/issues"
+  },
+  "license": "MIT",
+  "author": "Exodus Movement, Inc.",
+  "main": "bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ExodusMovement/zip-up.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "prepublishOnly": "npm test",
+    "pretest": "npm run build -s",
+    "test": "standard && tape test/*.js"
+  },
+  "dependencies": {
+    "buffer-crc32": "^0.2.13",
+    "fs-extra": "^6.0.0",
+    "klaw": "^2.1.1"
+  },
+  "devDependencies": {
+    "rollup": "^0.58.2",
+    "rollup-plugin-flow": "^1.1.1",
+    "standard": "^11.0.1",
+    "tape": "^4.9.0",
+    "tape-promise": "^3.0.0"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}
