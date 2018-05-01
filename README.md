@@ -42,3 +42,9 @@ it does not test that the file is created correctly. Please manually inspect
 
 Admittedly it's a down and dirty test, but it is enough to exercise the library
 properly and it also provides a sample usage.
+
+## History
+
+### 1.0.0 / 2018-05-01
+
+Initial release
