@@ -21,13 +21,14 @@ function convertDate (d: Date): number {
 
 // Return a flattened-out file list of a rootDir.
 // Each entry consists of the filename (with path relative to `rootDir`).
+// DOES NOT FOLLOW SYMLINKS
 function readDirRecurse (rootDir: string): Promise {
   return new Promise((resolve, reject) => {
     rootDir = path.resolve(rootDir)
     const fileEntries = []
     klaw(rootDir)
       .on('data', (item) => {
-        if (!item.stats.isDirectory()) {
+        if (!item.stats.isDirectory() && !item.stats.isSymbolicLink()) {
           fileEntries.push(path.relative(rootDir, item.path))
         }
       })
