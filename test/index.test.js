@@ -8,8 +8,15 @@ test('index: create zip file', async (t) => {
 
   t.pass('Reading directories "fixtures"')
 
-  if (fs.pathExistsSync(zipfile)) {
+  try {
     fs.unlinkSync(zipfile)
+  } catch (err) {
+    // Ignore if not found
+    //
+    if (err.code !== 'ENOENT') {
+      console.error(err)
+      throw err
+    }
   }
 
   const zipper = new Zip(zipfile, { level: 1 })
