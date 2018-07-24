@@ -1,6 +1,6 @@
 // @flow
 const test = require('tape-promise/tape')
-const fs = require('fs')
+const fs = require('fs-extra')
 const Zip = require('../bundle')
 
 test('index: create zip file', async (t) => {
@@ -8,7 +8,9 @@ test('index: create zip file', async (t) => {
 
   t.pass('Reading directories "fixtures"')
 
-  fs.unlinkSync(zipfile)
+  if (fs.pathExistsSync(zipfile)) {
+    fs.unlinkSync(zipfile)
+  }
 
   const zipper = new Zip(zipfile, { level: 1 })
   await zipper.addDir('test/fixtures')
