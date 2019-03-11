@@ -14,10 +14,6 @@
     "url": "git+https://github.com/ExodusMovement/zip-up.git"
   },
   "files": [
-    ".nvmrc",
-    "bundle.js",
-    "package.json",
-    "README.md"
   ],
   "scripts": {
     "build": "rollup -c",
