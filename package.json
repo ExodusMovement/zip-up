@@ -1,6 +1,6 @@
 {
   "name": "zip-up",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Create .zip files from directories or files",
   "homepage": "https://github.com/ExodusMovement/zip-up#readme",
   "bugs": {
@@ -13,6 +13,8 @@
     "type": "git",
     "url": "git+https://github.com/ExodusMovement/zip-up.git"
   },
+  "files": [
+  ],
   "scripts": {
     "build": "rollup -c",
     "prepublishOnly": "npm test",
