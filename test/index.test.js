@@ -20,7 +20,11 @@ test('index: create zip file', async (t) => {
   }
 
   const zipper = new Zip(zipfile, { level: 1 })
-  await zipper.addDir('test/fixtures')
+  await zipper.addDir('test/fixtures', 'test/fixtures', true)
   const written = await zipper.finalize()
   t.pass(written + ' total bytes written')
+
+  await zipper.addDir('test/fixtures/.d', 'test/fixtures/.d', false)
+  const hiddenWritten = await zipper.finalize()
+  t.pass(hiddenWritten + ' total bytes written')
 })
