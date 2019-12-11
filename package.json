@@ -1,6 +1,6 @@
 {
   "name": "zip-up",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Create .zip files from directories or files",
   "homepage": "https://github.com/ExodusMovement/zip-up#readme",
   "bugs": {
