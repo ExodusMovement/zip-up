@@ -34,7 +34,7 @@ function readDirRecurse (rootDir: string, ignoreHidden: ?boolean): Promise {
     const fileEntries = []
     const options = {}
     if (ignoreHidden) {
-      options['filter'] = filterHidden
+      options.filter = filterHidden
     }
     klaw(rootDir, options)
       .on('data', (item) => {
