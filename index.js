@@ -28,9 +28,11 @@ function filterHidden (item: string) {
 // Filter directories.
 function filterDirectories (exclude: Array) {
   return function (item: string) {
-    for (const dir of exclude)
-      if (item.startsWith(dir))
+    for (const dir of exclude) {
+      if (item.startsWith(dir)) {
         return false
+      }
+    }
     return true
   }
 }
@@ -43,11 +45,13 @@ function readDirRecurse (rootDir: string, opts: Object): Promise {
     rootDir = path.resolve(rootDir)
     const fileEntries = []
     const options = {}
-    if (opts.ignoreHidden) {
-      options.filter = filterHidden
-    }
-    if (opts.excludeDirectories) {
-      options.filter = filterDirectories(opts.excludeDirectories)
+    if (opts) {
+      if (opts.ignoreHidden) {
+        options.filter = filterHidden
+      }
+      if (opts.excludeDirectories) {
+        options.filter = filterDirectories(opts.excludeDirectories)
+      }
     }
     klaw(rootDir, options)
       .on('data', (item) => {
