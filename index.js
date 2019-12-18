@@ -25,16 +25,29 @@ function filterHidden (item: string) {
   return basename === '.' || basename[0] !== '.'
 }
 
+// Filter directories.
+function filterDirectories (exclude: Array) {
+  return function (item: string) {
+    for (const dir of exclude)
+      if (item.startsWith(dir))
+        return false
+    return true
+  }
+}
+
 // Return a flattened-out file list of a rootDir.
 // Each entry consists of the filename (with path relative to `rootDir`).
 // DOES NOT FOLLOW SYMLINKS
-function readDirRecurse (rootDir: string, ignoreHidden: ?boolean): Promise {
+function readDirRecurse (rootDir: string, opts: Object): Promise {
   return new Promise((resolve, reject) => {
     rootDir = path.resolve(rootDir)
     const fileEntries = []
     const options = {}
-    if (ignoreHidden) {
+    if (opts.ignoreHidden) {
       options.filter = filterHidden
+    }
+    if (opts.excludeDirectories) {
+      options.filter = filterDirectories(opts.excludeDirectories)
     }
     klaw(rootDir, options)
       .on('data', (item) => {
@@ -112,8 +125,8 @@ export default class Zip {
 
   // Recurse down into a directory tree and add each file file. Use `targetDir`
   // as the toplevel dir in the zipfile.
-  async addDir (srcDir: string, targetDir: ?string, ignoreHidden: ?boolean) {
-    const fileEntries = await readDirRecurse(srcDir, ignoreHidden)
+  async addDir (srcDir: string, targetDir: ?string, options: ?Object) {
+    const fileEntries = await readDirRecurse(srcDir, options)
 
     for (let entry of fileEntries) {
       try {

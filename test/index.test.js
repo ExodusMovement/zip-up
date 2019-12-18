@@ -39,7 +39,7 @@ test('index: create zip file', async (t) => {
   const zipper = await createZip()
 
   t.test('zip fixtures, no hidden dir', async (t) => {
-    await zipper.addDir('test/fixtures', 'test/fixtures', true /* ignoreHidden */)
+    await zipper.addDir('test/fixtures', 'test/fixtures', { ignoreHidden: true })
     const written = await zipper.finalize()
     t.pass(written + ' total bytes written')
 
@@ -50,7 +50,7 @@ test('index: create zip file', async (t) => {
   })
 
   t.test('zip fixtures with hidden dir', async (t) => {
-    await zipper.addDir('test/fixtures/.d', 'test/fixtures/.d', false /* ignoreHidden */)
+    await zipper.addDir('test/fixtures/.d', 'test/fixtures/.d', { ignoreHidden: false })
     const hiddenWritten = await zipper.finalize()
     t.pass(hiddenWritten + ' total bytes written')
 
@@ -59,4 +59,20 @@ test('index: create zip file', async (t) => {
     t.deepEqual(files, ['test/fixtures/.d/e.txt', 'test/fixtures/a.txt', 'test/fixtures/b/c.txt'], 'all files including hidden folder')
     t.end()
   })
+
+  t.test("zip fixtures excluding dir", async t => {
+    const zipper = new Zip(zipfile, { level: 1 });
+    await zipper.addDir("test/fixtures", "test/fixtures", {
+      ignoreHidden: true,
+      excludeDirectories: "test/fixtures/f"
+    });
+    const written = await zipper.finalize();
+    t.pass(written + " total bytes written");
+
+    const unzip = await createUnzip()
+    const files = Object.keys(unzip.entries()).sort()
+    t.deepEqual(files, ['test/fixtures/a.txt', 'test/fixtures/b/c.txt'], 'all files including hidden folder')
+    t.end()
+  });
+
 })
