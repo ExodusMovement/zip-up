@@ -13,8 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/ExodusMovement/zip-up.git"
   },
-  "files": [
-  ],
+  "files": [],
   "scripts": {
     "build": "rollup -c",
     "prepublishOnly": "npm test",
@@ -28,11 +27,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
+    "node-stream-zip": "^1.8.2",
     "rollup": "^0.58.2",
     "rollup-plugin-flow": "^1.1.1",
     "standard": "^11.0.1",
     "tape": "^4.9.0",
-    "tape-promise": "^3.0.0"
+    "tape-promise": "^4.0.0"
   },
   "standard": {
     "parser": "babel-eslint"

@@ -956,6 +956,11 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
+node-stream-zip@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/node-stream-zip/-/node-stream-zip-1.8.2.tgz#1f79e30ab3ff54cbda312cd3a9f0030b15bb3f53"
+  integrity sha512-zwP2F/R28Oqtl0gOLItk5QjJ6jEU8XO4kaUMgeqvCyXPgdCZlm8T/5qLMiNy+moJCBCiMQAaX7aVMRhT0t2vkQ==
+
 normalize-package-data@^2.3.2:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.4.0.tgz#12f95a307d58352075a04907b84ac8be98ac012f"
@@ -1384,9 +1389,10 @@ table@4.0.2:
     slice-ansi "1.0.0"
     string-width "^2.1.1"
 
-tape-promise@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/tape-promise/-/tape-promise-3.0.0.tgz#ffb864cc41df54f0ce0dffbb642c0e3e9f2c786f"
+tape-promise@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/tape-promise/-/tape-promise-4.0.0.tgz#c1f3553959b2e9d64b1546e7276b8a017c616897"
+  integrity sha512-mNi5yhWAKDuNgZCfFKeZbsXvraVOf+I8UZG+lf+aoRrzX4+jd4mpNBjYh16/VcpEMUtS0iFndBgnfxxZbtyLFw==
   dependencies:
     is-promise "^2.1.0"
     onetime "^2.0.0"

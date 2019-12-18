@@ -130,13 +130,15 @@ export default class Zip {
       throw Error('no files in zip!')
     }
 
-    this._pushCentralDirectory()
-    const outStream = fs.createWriteStream(this.zipFileName)
-    for (let buf of this.queue) {
-      outStream.write(buf)
-    }
-    outStream.end()
-    return this.fileptr
+    return new Promise((resolve, reject) => {
+      this._pushCentralDirectory()
+      const outStream = fs.createWriteStream(this.zipFileName)
+      for (let buf of this.queue) {
+        outStream.write(buf)
+      }
+      outStream.on('finish', () => resolve(this.fileptr))
+      outStream.end()
+    })
   }
 
   // Internal method to create and output the local file header.
