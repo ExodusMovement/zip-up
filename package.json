@@ -22,11 +22,11 @@
   },
   "dependencies": {
     "buffer-crc32": "^0.2.13",
-    "fs-extra": "^6.0.0",
     "klaw": "^2.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
+    "fs-extra": "^6.0.0",
     "node-stream-zip": "^1.8.2",
     "rollup": "^0.58.2",
     "rollup-plugin-flow": "^1.1.1",
