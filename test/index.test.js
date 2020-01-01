@@ -108,7 +108,7 @@ test('index: create zip file', async t => {
       zipper = await doesNotReject(t, createZip(), 'createZip does not reject')
       await zipper.addDir('test/fixtures', 'test/fixtures', {
         ignoreHidden: true,
-        excludeDirectories: 'test/fixtures/f'
+        excludeDirectories: ['test/fixtures/f']
       })
       const written = await doesNotReject(
         t,

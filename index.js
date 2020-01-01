@@ -5,6 +5,7 @@ import fs from 'fs'
 import klaw from 'klaw'
 import path from 'path'
 import zlib from 'zlib'
+import through2 from 'through2'
 
 import consts from './_consts'
 
@@ -19,22 +20,26 @@ function convertDate (d: Date): number {
     (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)
 }
 
-// Filter hidden files/directories.
+// Filter hidden.
 function filterHidden (item: string) {
   const basename = path.basename(item)
   return basename === '.' || basename[0] !== '.'
 }
 
 // Filter directories.
-function filterDirectories (exclude: Array) {
-  return function (item: string) {
-    for (const dir of exclude) {
-      if (item.startsWith(dir)) {
-        return false
+const filterDirectories = function (opts: Object) {
+  return through2.obj(function (item, enc, next) {
+    if (opts && opts.excludeDirectories) {
+      for (const dir of opts.excludeDirectories) {
+        if (item.path.indexOf(dir) === -1) {
+          this.push(item)
+        }
       }
+    } else {
+      this.push(item)
     }
-    return true
-  }
+    next()
+  })
 }
 
 // Return a flattened-out file list of a rootDir.
@@ -45,15 +50,11 @@ function readDirRecurse (rootDir: string, opts: Object): Promise {
     rootDir = path.resolve(rootDir)
     const fileEntries = []
     const options = {}
-    if (opts) {
-      if (opts.ignoreHidden) {
-        options.filter = filterHidden
-      }
-      if (opts.excludeDirectories) {
-        options.filter = filterDirectories(opts.excludeDirectories)
-      }
+    if (opts.ignoreHidden) {
+      options.filter = filterHidden
     }
     klaw(rootDir, options)
+      .pipe(filterDirectories(opts))
       .on('data', (item) => {
         if (!item.stats.isDirectory() && !item.stats.isSymbolicLink()) {
           fileEntries.push(path.relative(rootDir, item.path))
