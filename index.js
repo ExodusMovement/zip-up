@@ -19,7 +19,7 @@ function convertDate (d: Date): number {
     (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)
 }
 
-// Filter hidden files/directories.
+// Filter hidden.
 function filterHidden (item: string) {
   const basename = path.basename(item)
   return basename === '.' || basename[0] !== '.'
@@ -28,17 +28,21 @@ function filterHidden (item: string) {
 // Return a flattened-out file list of a rootDir.
 // Each entry consists of the filename (with path relative to `rootDir`).
 // DOES NOT FOLLOW SYMLINKS
-function readDirRecurse (rootDir: string, ignoreHidden: ?boolean): Promise {
+function readDirRecurse (rootDir: string, opts: Object): Promise {
   return new Promise((resolve, reject) => {
     rootDir = path.resolve(rootDir)
     const fileEntries = []
     const options = {}
-    if (ignoreHidden) {
+    if (opts && opts.ignoreHidden) {
       options.filter = filterHidden
     }
     klaw(rootDir, options)
       .on('data', (item) => {
-        if (!item.stats.isDirectory() && !item.stats.isSymbolicLink()) {
+        let excluded = false
+        if (opts && opts.exclude) {
+          excluded = opts.exclude.filter((pattern) => item.path.indexOf(pattern) !== -1).length > 0
+        }
+        if (!item.stats.isDirectory() && !item.stats.isSymbolicLink() && !excluded) {
           fileEntries.push(path.relative(rootDir, item.path))
         }
       })
@@ -112,8 +116,8 @@ export default class Zip {
 
   // Recurse down into a directory tree and add each file file. Use `targetDir`
   // as the toplevel dir in the zipfile.
-  async addDir (srcDir: string, targetDir: ?string, ignoreHidden: ?boolean) {
-    const fileEntries = await readDirRecurse(srcDir, ignoreHidden)
+  async addDir (srcDir: string, targetDir: ?string, options: ?Object) {
+    const fileEntries = await readDirRecurse(srcDir, options)
 
     for (let entry of fileEntries) {
       try {
