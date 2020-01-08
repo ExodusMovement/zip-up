@@ -23,8 +23,7 @@
   "dependencies": {
     "buffer-crc32": "^0.2.13",
     "fs-extra": "^6.0.0",
-    "klaw": "^2.1.1",
-    "through2": "^3.0.1"
+    "klaw": "^2.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",

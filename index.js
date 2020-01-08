@@ -5,7 +5,6 @@ import fs from 'fs'
 import klaw from 'klaw'
 import path from 'path'
 import zlib from 'zlib'
-import through2 from 'through2'
 
 import consts from './_consts'
 
@@ -26,22 +25,6 @@ function filterHidden (item: string) {
   return basename === '.' || basename[0] !== '.'
 }
 
-// Filter directories.
-const filterDirectories = function (opts: Object) {
-  return through2.obj(function (item, enc, next) {
-    if (opts && opts.excludeDirectories) {
-      for (const dir of opts.excludeDirectories) {
-        if (item.path.indexOf(dir) === -1) {
-          this.push(item)
-        }
-      }
-    } else {
-      this.push(item)
-    }
-    next()
-  })
-}
-
 // Return a flattened-out file list of a rootDir.
 // Each entry consists of the filename (with path relative to `rootDir`).
 // DOES NOT FOLLOW SYMLINKS
@@ -50,13 +33,18 @@ function readDirRecurse (rootDir: string, opts: Object): Promise {
     rootDir = path.resolve(rootDir)
     const fileEntries = []
     const options = {}
-    if (opts.ignoreHidden) {
+    if (opts && opts.ignoreHidden) {
       options.filter = filterHidden
     }
     klaw(rootDir, options)
-      .pipe(filterDirectories(opts))
       .on('data', (item) => {
-        if (!item.stats.isDirectory() && !item.stats.isSymbolicLink()) {
+        let excluded = false
+        for (const dir of opts.excludeDirectories) {
+          if (item.path.indexOf(dir) !== -1) {
+            excluded = true
+          }
+        }
+        if (!item.stats.isDirectory() && !item.stats.isSymbolicLink() && !excluded) {
           fileEntries.push(path.relative(rootDir, item.path))
         }
       })
