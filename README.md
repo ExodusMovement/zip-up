@@ -34,14 +34,27 @@ const bytesWritten = await zipper.finalize()
 // bytesWritten -> 276
 ```
 
+## Options
+
+Options can be passed as the second argument to `addDir`:
+
+```js
+await zipper.addDir('directory', {
+  ignoreHidden: true,
+  exclude: ['/tmp/']
+})
+```
+
+`ignoreHidden`: whether to ignore hidden files (default: `false`)
+
+`exclude`: array of paths to exclude (default: `[]`) **Note**: this applies to
+files as well as directories.
+
 ## Testing
 
-Run `npm test` to run a simple test suite; this tests that no errors occur, but
-it does not test that the file is created correctly. Please manually inspect
-`test/output.zip` and ensure it matches the files in `test/fixtures`.
-
-Admittedly it's a down and dirty test, but it is enough to exercise the library
-properly and it also provides a sample usage.
+Run `npm test` to run the test suite. The tests insure that no errors occur and
+also verifies that the file is created correctly by unzipping and examining the
+file contents.
 
 ## History
 
