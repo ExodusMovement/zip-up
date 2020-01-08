@@ -23,6 +23,12 @@ single zip file without having to have a staging folder on the harddrive. Yes,
 this means everything is done in memory, so be mindful of file sizes and the
 available RAM on the target machine.
 
+## Installation
+
+```bash
+$ npm install zip-up
+```
+
 ## Usage
 
 ```js
@@ -34,9 +40,9 @@ const bytesWritten = await zipper.finalize()
 // bytesWritten -> 276
 ```
 
-## Options
+# Options
 
-Options can be passed as the second argument to `addDir`:
+Options can be passed as the second argument to `Zip.addDir()`:
 
 ```js
 await zipper.addDir('directory', {
@@ -45,7 +51,7 @@ await zipper.addDir('directory', {
 })
 ```
 
-`ignoreHidden`: whether to ignore hidden files (default: `false`)
+`ignoreHidden`: whether to ignore hidden files; i.e. files beginning with `.` (default: `false`).
 
 `exclude`: array of paths to exclude (default: `[]`) **Note**: this applies to
 files as well as directories.
@@ -56,8 +62,9 @@ Run `npm test` to run the test suite. The tests insure that no errors occur and
 also verifies that the file is created correctly by unzipping and examining the
 file contents.
 
-## History
+## Contributing
 
-### 1.0.0 / 2018-05-01
+When submitting a PR for review, make sure that you include a test for your proposed
+feature or fix.
 
-Initial release
+
