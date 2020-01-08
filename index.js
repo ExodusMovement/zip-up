@@ -39,9 +39,11 @@ function readDirRecurse (rootDir: string, opts: Object): Promise {
     klaw(rootDir, options)
       .on('data', (item) => {
         let excluded = false
-        for (const dir of opts.excludeDirectories) {
-          if (item.path.indexOf(dir) !== -1) {
-            excluded = true
+        if (opts && opts.excludeDirectories) {
+          for (const dir of opts.excludeDirectories) {
+            if (item.path.indexOf(dir) !== -1) {
+              excluded = true
+            }
           }
         }
         if (!item.stats.isDirectory() && !item.stats.isSymbolicLink() && !excluded) {
