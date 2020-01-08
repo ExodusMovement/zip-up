@@ -52,9 +52,9 @@ files as well as directories.
 
 ## Testing
 
-Run `npm test` to run a comprehensive test suite; this tests that no errors
-occur and also verifies that the file is created correctly by unzipping and
-examining the file contents.
+Run `npm test` to run the test suite. The tests insure that no errors occur and
+also verifies that the file is created correctly by unzipping and examining the
+file contents.
 
 ## History
 
