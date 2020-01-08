@@ -40,11 +40,7 @@ function readDirRecurse (rootDir: string, opts: Object): Promise {
       .on('data', (item) => {
         let excluded = false
         if (opts && opts.excludeDirectories) {
-          for (const dir of opts.excludeDirectories) {
-            if (item.path.indexOf(dir) !== -1) {
-              excluded = true
-            }
-          }
+          excluded = opts.excludeDirectories.filter((dir) => item.path.indexOf(dir) !== -1).length
         }
         if (!item.stats.isDirectory() && !item.stats.isSymbolicLink() && !excluded) {
           fileEntries.push(path.relative(rootDir, item.path))
