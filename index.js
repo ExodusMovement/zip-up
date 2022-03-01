@@ -119,7 +119,7 @@ export default class Zip {
   async addDir (srcDir: string, targetDir: ?string, options: ?Object) {
     const fileEntries = await readDirRecurse(srcDir, options)
 
-    for (let entry of fileEntries) {
+    for (const entry of fileEntries) {
       try {
         await this.addFile(srcDir, entry, targetDir)
       } catch (error) {
@@ -137,7 +137,7 @@ export default class Zip {
     return new Promise((resolve, reject) => {
       this._pushCentralDirectory()
       const outStream = fs.createWriteStream(this.zipFileName)
-      for (let buf of this.queue) {
+      for (const buf of this.queue) {
         outStream.write(buf)
       }
       outStream.on('finish', () => resolve(this.fileptr))
