@@ -2,8 +2,6 @@
 
 Simple zip module for Node.js
 
-**NOTE:** This module uses `async`/`await`; must use Node v7.6.0 or higher.
-
 ## Introduction
 
 I created this project because there isn't a simple, easy to use zip reader for
